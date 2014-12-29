@@ -24,9 +24,12 @@ def autodiscover(installed_apps):
     channels = {}
 
     for app in installed_apps:
-        lookup = import_module('%s.lookup' % app)
+        try:
+            lookup = import_module('%s.lookup' % app)
 
-        if 'AJAX_LOOKUP_CHANNELS' in lookup:
-            merge_dict(channels, lookup.AJAX_LOOKUP_CHANNELS)
+            if 'AJAX_LOOKUP_CHANNELS' in lookup:
+                merge_dict(channels, lookup.AJAX_LOOKUP_CHANNELS)
+        except:
+            pass
 
     return channels
