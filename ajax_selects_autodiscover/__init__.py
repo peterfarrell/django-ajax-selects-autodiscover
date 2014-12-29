@@ -18,6 +18,7 @@ class AutoDiscover():
             self.channels = self.discover_channels()
         return self.channels[key]
 
+    @staticmethod
     def discover_channels():
         from django.conf import settings
         from django.utils.importlib import import_module
