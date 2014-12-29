@@ -11,7 +11,7 @@ def merge_dict(d1, d2):
     return merged
 
 
-def autodiscover(installed_apps):
+def autodiscover():
     """
     Auto-discover INSTALLED_APPS admin.py modules and fail silently when
     not present. This forces an import on them to register any admin bits they
@@ -23,7 +23,7 @@ def autodiscover(installed_apps):
 
     channels = {}
 
-    for app in installed_apps:
+    for app in settings.INSTALLED_APPS:
         try:
             lookup = import_module('%s.lookup' % app)
 
