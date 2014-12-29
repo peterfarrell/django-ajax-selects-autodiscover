@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(
-    name="django-health-check",
+    name="django-ajax-selects-autodiscover",
     version='alpha',
     author="Peter J. Farrell",
     author_email="pfarrell@greatbiztools.com",
