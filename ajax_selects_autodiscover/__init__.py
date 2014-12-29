@@ -11,25 +11,26 @@ def merge_dict(d1, d2):
     return merged
 
 
-def autodiscover():
-    """
-    Auto-discover INSTALLED_APPS admin.py modules and fail silently when
-    not present. This forces an import on them to register any admin bits they
-    may want.
-    """
+class AutoDiscover():
 
-    from django.conf import settings
-    from django.utils.importlib import import_module
+    def __getitem__(self, key):
+        if not hasattr(self, 'channels'):
+            self.channels = self.discover_channels()
+        return self.channels[key]
 
-    channels = {}
+    def discover_channels():
+        from django.conf import settings
+        from django.utils.importlib import import_module
 
-    for app in settings.INSTALLED_APPS:
-        try:
-            lookup = import_module('%s.lookup' % app)
+        channels = {}
 
-            if hasattr(lookup, "AJAX_LOOKUP_CHANNELS"):
-                channels = merge_dict(channels, lookup.AJAX_LOOKUP_CHANNELS)
-        except:
-            pass
+        for app in settings.INSTALLED_APPS:
+            try:
+                lookup = import_module('%s.lookup' % app)
 
-    return channels
+                if hasattr(lookup, "AJAX_LOOKUP_CHANNELS"):
+                    channels = merge_dict(channels, lookup.AJAX_LOOKUP_CHANNELS)
+            except:
+                pass
+
+        return channels
